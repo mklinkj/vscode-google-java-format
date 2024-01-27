@@ -35,7 +35,7 @@ function runFormatter(textRange: string): Promise<string> {
 	return new Promise((resolve, reject) => {
 		try {
 			let stdout: string = execSync(
-				`java -jar ${vscode.workspace.getConfiguration('gjf').get('jarPath')} -`,
+				`${vscode.workspace.getConfiguration('gjf').get('javaHome')}/bin/java -jar ${vscode.workspace.getConfiguration('gjf').get('jarPath')} -`,
 				{
 					encoding: "utf8",
 					input: textRange,

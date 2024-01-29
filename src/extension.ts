@@ -32,10 +32,16 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() { }
 
 function runFormatter(textRange: string): Promise<string> {
+  const jarPath = `${vscode.workspace.getConfiguration('gjf').get('jarPath')}`;
+  const javaHome = `${vscode.workspace.getConfiguration('gjf').get('javaHome')}`;
+  const jvmOptions = `${(vscode.workspace.getConfiguration('gjf').get('jvmOptions') as string[]).join(' ')}`;
+
 	return new Promise((resolve, reject) => {
 		try {
+      
+
 			let stdout: string = execSync(
-				`${vscode.workspace.getConfiguration('gjf').get('javaHome')}/bin/java -jar ${vscode.workspace.getConfiguration('gjf').get('jarPath')} -`,
+				`${javaHome}/bin/java -jar ${jvmOptions} ${jarPath} -`,
 				{
 					encoding: "utf8",
 					input: textRange,

@@ -6,7 +6,7 @@
 		"url": "https://gitlab.com/mngrm3a/vscode-google-java-format"
 	},
 	"publisher": "mngrm3a",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"engines": {
 		"vscode": "^1.45.0"
 	},
@@ -22,6 +22,17 @@
 			{
 				"title": "Google Java Format",
 				"properties": {
+					"gjf.executionType": {
+						"type": "string",
+						"enum": ["jar", "native"],
+						"default": "jar",
+						"description": "Choose whether to run the extension using a JAR file or a native executable."
+					},
+					"gjf.nativeImagePath": {
+						"title": "Native Image Path",
+						"type": "string",
+						"markdownDescription": "[Google Java Format's first native images released](https://github.com/google/google-java-format/releases/tag/v1.20.0)"
+					},
 					"gjf.jarPath": {
 						"title": "Fat Jar Path",
 						"type": "string",

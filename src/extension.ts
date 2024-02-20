@@ -32,16 +32,23 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() { }
 
 function runFormatter(textRange: string): Promise<string> {
-  const jarPath = `${vscode.workspace.getConfiguration('gjf').get('jarPath')}`;
-  const javaHome = `${vscode.workspace.getConfiguration('gjf').get('javaHome')}`;
-  const jvmOptions = `${(vscode.workspace.getConfiguration('gjf').get('jvmOptions') as string[]).join(' ')}`;
+	const command = (() => {
+		const executionType = `${vscode.workspace.getConfiguration('gjf').get('executionType')}`;
+		if (executionType === 'jar') {
+			const jarPath = `${vscode.workspace.getConfiguration('gjf').get('jarPath')}`;
+			const javaHome = `${vscode.workspace.getConfiguration('gjf').get('javaHome')}`;
+			const jvmOptions = `${(vscode.workspace.getConfiguration('gjf').get('jvmOptions') as string[]).join(' ')}`;
+			return `${javaHome}/bin/java -jar ${jvmOptions} ${jarPath}`;
+		} else {
+			const nativeImagePath = `${vscode.workspace.getConfiguration('gjf').get('nativeImagePath')}`;
+			return `${nativeImagePath}`;
+		}
+	})();
 
 	return new Promise((resolve, reject) => {
 		try {
-      
-
 			let stdout: string = execSync(
-				`${javaHome}/bin/java -jar ${jvmOptions} ${jarPath} -`,
+				`${command} -`,
 				{
 					encoding: "utf8",
 					input: textRange,
